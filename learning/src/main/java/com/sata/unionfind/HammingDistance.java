@@ -77,7 +77,7 @@ public class HammingDistance {
         if (visited[i]) return;
         visited[i] = true;
         group.add(i);
-        if (mp.get(i) == null) return;
+//        if (mp.get(i) == null) return;
         for (int tmp : mp.get(i)) {
             dfs(mp, group, tmp, visited);
         }

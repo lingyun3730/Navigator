@@ -38,14 +38,14 @@ public class BlockingQueue<E> {
         try {
             while (size == elements.length) {
                 System.out.println("阻塞队列满了");
-                notFull.await();
+                notFull.await(); //队列已满等待
             }
             elements[tail] = e;
             if (++tail == elements.length) {
                 tail = 0;
             }
             size++;
-            notEmpty.signal();
+            notEmpty.signal(); //队列非空信号
 
         } catch (InterruptedException ex) {
             ex.printStackTrace();
@@ -60,14 +60,14 @@ public class BlockingQueue<E> {
         try {
             while (size == 0) {
                 System.out.println("阻塞队列空了");
-                notEmpty.await();
+                notEmpty.await(); //队列已空等待
             }
             e = (E) elements[head];
             elements[head] = null;
             if (++head == elements.length)
                 head = 0;
             size--;
-            notFull.signal();
+            notFull.signal(); //队列非满信号
 
         } catch (InterruptedException ex) {
             ex.printStackTrace();
