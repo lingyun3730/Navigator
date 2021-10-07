@@ -16,6 +16,12 @@ public class CompleteBackpack {
         testCompleteBagProblemII(weight, value, bagSize);
     }
 
+    /**
+     * 完全背包的二维数组解法
+     * @param weight
+     * @param value
+     * @param bagSize
+     */
     public static void testCompleteBagProblem(int[] weight, int[] value, int bagSize){
         int wLen = weight.length, value0 = 0;
         //定义dp数组：dp[i][j]表示背包容量为j时，前i个物品能获得的最大价值
@@ -44,7 +50,7 @@ public class CompleteBackpack {
     }
 
     /**
-     * 滚动数组解法
+     * 完全背包的滚动数组解法，单纯的完全背包，求的是最大价值，因此与先遍历背包还是先遍历物品无关
      */
     public static void testCompleteBagProblemII(int[] weight, int[] value, int bagSize) {
         int[] dp = new int[bagSize + 1]; //dp[i]表示容量为i的背包，其最大可容纳的物品的价值。
