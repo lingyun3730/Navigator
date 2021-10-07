@@ -1,4 +1,4 @@
-package com.sata.dp;
+package com.sata.dp.treeDp;
 
 import java.io.BufferedReader;
 import java.io.IOException;
