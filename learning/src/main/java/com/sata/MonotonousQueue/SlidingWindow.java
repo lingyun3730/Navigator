@@ -1,4 +1,4 @@
-package com.sata.MonotonousStack;
+package com.sata.MonotonousQueue;
 
 import java.util.ArrayDeque;
 import java.util.Deque;

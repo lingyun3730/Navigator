@@ -20,12 +20,13 @@ public class StockIV {
         }
         for(int i = 1; i < n; i++) {
             for(int j = 0; j < k; j++) {
+                //买入处理，持有的最大钱
                 if(j == 0) {
-                    dp[i][j * 2] = Math.max(dp[i-1][j * 2],  - prices[i]); //第0天单独处理
+                    dp[i][j * 2] = Math.max(dp[i-1][j * 2],  - prices[i]); //第1次单独处理
                 } else {
                     dp[i][j * 2] = Math.max(dp[i-1][j * 2], dp[i-1][j * 2 - 1] - prices[i]);
                 }
-
+                //卖出处理，卖出的最大钱
                 dp[i][j * 2 + 1] = Math.max(dp[i-1][j * 2 + 1], dp[i-1][j * 2] + prices[i]);
             }
         }
