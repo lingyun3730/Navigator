@@ -1,4 +1,4 @@
-package com.sata.datastructure;
+package com.sata.queue;
 
 /**
  * 实现一个队列 cyclic

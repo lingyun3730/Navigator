@@ -1,4 +1,4 @@
-package com.sata.datastructure;
+package com.sata.lrucache;
 
 import java.util.HashMap;
 import java.util.Map;
