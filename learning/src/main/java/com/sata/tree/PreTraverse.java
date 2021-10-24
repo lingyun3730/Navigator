@@ -16,8 +16,7 @@ public class PreTraverse {
                 s.push(cur);
                 cur = cur.left;
             }
-            cur = s.peek();
-            s.pop();
+            cur = s.pop();
             cur = cur.right;
         }
         return res;

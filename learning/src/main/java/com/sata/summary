@@ -25,3 +25,13 @@ BFS （模板）
 LRU cache
 实现一个blocking queue
 
+
+薄弱点或者可能会遗忘的点：
+1. LRU
+2. KMP
+3. blocking queue
+4. 二叉树的非递归遍历
+5. 树形dp，博弈型dp
+6. 最近公共祖先 LC236
+
+
