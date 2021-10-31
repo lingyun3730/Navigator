@@ -1,4 +1,4 @@
-package com.sata.dfs.pureBackTracing;
+package com.sata.dfs.pureBackTracing.combinations;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -33,5 +33,15 @@ LRU cache
 4. 二叉树的非递归遍历
 5. 树形dp，博弈型dp
 6. 最近公共祖先 LC236
+7. 分割问题 93 backtracking
+8. LC 332, 673
+9. java的容器Deque, Queue, Stack ...
+10. top - down / bottom - up 经典题 LC 132
+
+
+backtracking:
+1. 组合问题是一个pattern, index, i， 只取到叶子节点的路径
+2. 子集问题在组合问题的基础上， 取到所有的节点的路径
+3. 分割问题的本质还是组合问题，只是呈现方式略有不同，需要特殊建模
 
 
