@@ -64,7 +64,8 @@ public class TreeDp {
             }
             //relation map, tree.
             Map<Integer, List<Integer>> relations = getRelations(bosses);
-            int[] res = dfs(-1, relations.get(-1), relations, scores);
+            Map<Integer, int[]> mp = new HashMap<>();
+            int[] res = dfs(-1, relations.get(-1), relations, scores, mp);
             System.out.println(Math.max(res[0], res[1]));
 
         } catch (IOException e) {
@@ -80,23 +81,29 @@ public class TreeDp {
      * @param scores : friendship score.
      * @return
      */
-    private static int[] dfs(int node, List<Integer> children, Map<Integer, List<Integer>> relations, List<Integer> scores) {
-        int[] result = new int[2];
+    private static int[] dfs(int node,
+                             List<Integer> children,
+                             Map<Integer, List<Integer>> relations,
+                             List<Integer> scores,
+                             Map<Integer, int[]> mp) {
+        int[] result = new int[2]; //result[0]表示选择不当前节点, result[1]表示选择当前节点的最大分数
         if(children == null || children.isEmpty()) {
             result[1] += scores.get(node);
             return result;
         }
+        if(mp.containsKey(node)) return mp.get(node);
+        int score = node == -1? 0 : scores.get(node);
+        result[1] += score; //选择该node，所以要加上它的score
         List<int[]> midVal = new ArrayList<>();
         for(int i : children) {
-            int [] tmp = dfs(i, relations.get(i), relations, scores); //子节点继续dfs。
+            int [] tmp = dfs(i, relations.get(i), relations, scores, mp); //子节点继续dfs。
             midVal.add(tmp);
         }
         for(int[] tmp : midVal) {
             result[0] += Math.max(tmp[0], tmp[1]); //不选择该node， child nodes可选可不选
             result[1] += tmp[0]; //选择该node, 则child node不能被选
         }
-        int score = node == -1? 0 : scores.get(node);
-        result[1] += score; //选择该node，所以要加上它的score
+        mp.put(node, result);
         return result;
     }
 

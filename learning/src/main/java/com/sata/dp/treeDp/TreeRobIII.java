@@ -12,7 +12,7 @@ import java.util.Map;
 public class TreeRobIII {
 
     /**
-     * dp solution
+     * dfs solution
      * @param root
      * @return
      */
@@ -36,7 +36,7 @@ public class TreeRobIII {
     }
 
     /**
-     * dfs + memo
+     * dfs + memo 1
      * @param root
      * @return
      */
@@ -58,6 +58,33 @@ public class TreeRobIII {
             res += robHelper(root.right.left, mp) + robHelper(root.right.right, mp);
         }
         res = Math.max(res, robHelper(root.left, mp) + robHelper(root.right, mp));
+        mp.put(root, res);
+        return res;
+    }
+
+    /**
+     * dfs + memo 2
+     * @param root
+     * @return
+     */
+    public int robIII(TreeNode root) {
+        Map<TreeNode, int[]> mp = new HashMap<>();
+        int[] res = helperII(root, mp);
+        return Math.max(res[0], res[1]);
+    }
+    private int[] helperII(TreeNode root, Map<TreeNode, int[]> mp) {
+        int[] res = new int[2];
+        if(root == null) return res;
+        if(mp.containsKey(root)) {
+            return mp.get(root);
+        }
+        res[1] += root.val;
+        int[] left = helperII(root.left, mp);
+        int[] right = helperII(root.right, mp);
+        //取不取子节点都行
+        res[0] += Math.max(left[0], left[1]) + Math.max(right[0], right[1]);
+        //不能取子节点
+        res[1] += left[0] + right[0];
         mp.put(root, res);
         return res;
     }

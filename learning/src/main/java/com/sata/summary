@@ -27,16 +27,27 @@ LRU cache
 
 
 薄弱点或者可能会遗忘的点：
-1. LRU
+1. LRU (done)
 2. KMP
 3. blocking queue
 4. 二叉树的非递归遍历
-5. 树形dp，博弈型dp
+5. 树形dp，博弈型dp （done)
+ * 树形dp, 每个节点都有取和不取两种状态，因此状态int[2]作为返回值，进行dfs + memo (Map<Integer, int[]>), 取和不取对是否取子节点有影响。
+
+ * 博弈型dp, 对角线填充, totally bottom -> up, 二维dp
+ *
+ * dp[i][j][0] 表示面对i-j的红包自己作为先手的最大收益
+ * dp[i][j][1] 表示面对i-j的红包自己作为后手的最大收益
+ * 先对角线初始化，然后数组填充 i : [n-1,0], j : [i+1, n-1]
+ * dp[i][j][0] = max(dp[i+1][j][1] + data[i], dp[i][j-1][1] + data[j])
+ * dp[i][j][1] = dp[i+1][j][1] + data[i] > dp[i][j-1][1] + data[j]? dp[i+1][j][0] : dp[i][j-1][0]
+
 6. 最近公共祖先 LC236
 7. 分割问题 93 backtracking
 8. LC 332, 673
 9. java的容器Deque, Queue, Stack ...
 10. top - down / bottom - up 经典题 LC 132
+11. 二分法的循环不变量，[start, end) 和 [start, end]
 
 
 backtracking:

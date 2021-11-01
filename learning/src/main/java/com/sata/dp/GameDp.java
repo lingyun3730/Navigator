@@ -74,7 +74,12 @@ import java.util.Scanner;
  */
 
 /**
- * 博弈型dp, 对角线填充。
+ * 博弈型dp, 对角线填充, totally bottom -> up, 二维dp
+ *
+ * dp[i][j][0] 表示面对i-j的红包自己作为先手的最大收益
+ * dp[i][j][1] 表示面对i-j的红包自己作为后手的最大收益
+ * dp[i][j][0] = max(dp[i+1][j][1] + data[i], dp[i][j-1][1] + data[j])
+ * dp[i][j][1] = dp[i+1][j][1] + data[i] > dp[i][j-1][1] + data[j]? dp[i+1][j][0] : dp[i][j-1][0]
  */
 public class GameDp {
     public static void main(String[] args) {
@@ -86,7 +91,7 @@ public class GameDp {
         for(int i = 0 ; i < s2.length ; i ++){
             data.add(Integer.valueOf(s2[i]));
         }
-        System.out.println(helper(data));
+        System.out.println(helper2(data));
         in.close();
     }
     private static int helper(List<Integer> data) {
@@ -104,12 +109,37 @@ public class GameDp {
                 // dp[i][j][0] 表示面对i->j位置的红包，先手能拿到的最大值
                 int left = dp[i+1][j][1] + data.get(i); //拿了左边的红包，则面对（i+1 -> j）位置的红包，自己变成了后手
                 int right = dp[i][j-1][1] + data.get(j); //拿了左边的红包，则面对（i -> j-1）位置的红包，自己变成了后手
-                dp[i][j][0] = Math.max(left, right);
+                dp[i][j][0] = Math.max(left, right); //面对i -> j自己是先手的情况
                 //dp[i][j][1] 表示面对i->j位置的红包，后手能拿到的最大值
                 if(left > right) {
                     dp[i][j][1] = dp[i+1][j][0]; //先手选择了左边，后手面对（i+1 -> j)位置的红包，变成了先手
                 }else{
                     dp[i][j][1] = dp[i][j-1][0]; //先手选择了右边，后手面对（i -> j-1)位置的红包，变成了先手
+                }
+            }
+        }
+        return Math.max(dp[0][n-1][0], dp[0][n-1][1]);
+    }
+
+    //数组的填充方式是从下向上从左往右。
+    private static int helper2(List<Integer> data) {
+        int n = data.size();
+        int[][][] dp = new int[n][n][2];
+        //对角线初始化
+        for(int i = 0; i < n; i++) { //数组长度为1，
+            dp[i][i][0] = data.get(i); //先手拿掉，
+            dp[i][i][1] = 0; //后手没有拿到
+        }
+        //从下向上，从左往右的遍历方式
+        for(int i = n-1; i >=0; i--) {
+            for(int j = i + 1; j < n; j++) {
+                int left = dp[i+1][j][1] + data.get(i);
+                int right = dp[i][j-1][1] + data.get(j);
+                dp[i][j][0] = Math.max(left, right); //作为先手
+                if(left > right) {
+                    dp[i][j][1] = dp[i + 1][j][0];
+                }else{
+                    dp[i][j][1] = dp[i][j-1][0];
                 }
             }
         }
