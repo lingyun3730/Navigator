@@ -8,6 +8,18 @@ package com.sata.string;
  *return 2;
  */
 public class StrStr {
+    /**
+     * KMP算法是用来解决字符串匹配问题的， 一边是主串，一边是模式串，当模式串在某一位不能匹配上主串时，模式串不需要重新从0开始匹配，而是可以回退到上一个
+     * 可以完全匹配上的地方，想一下 模式串aabaaf和主串aabaabaaf, f和b不匹配，模式串回退到b的位置继续和主串进行匹配，因此我们需要记录下模式串的next数组，
+     * 这个数组的作用是，记录模式串的子串的最长前缀后缀匹配的长度，作为匹配时回退的依据，求next数组的过程是模式串自身和自身进行匹配的过程，后缀串和前缀串
+     * 错开一位，后缀串从下标1开始，前缀串从下标0开始，分别考虑当匹配和不匹配时的操作，不匹配时，前缀串需要回退到最长前缀后缀长度的下标位置，匹配时，
+     * 前缀串向前走一位，此时可以求出后缀串next[i] = j，表示，模式串[0,i]的最长前缀后缀的长度就是j。
+     *
+     * 然后模式串和主串进行匹配，当模式串和主串不匹配时，模式串根据next数组回退到最长前缀后缀相等的长度的位置，匹配时模式串向前走一位，等模式串走到最后一位，
+     * 就能求出主串中匹配模式串的第一个位置下标。
+     */
+
+
     //求next数组，表示子串的最长前缀后缀匹配长度。
     private void getNext(int[] next, String p) {
         next[0] = 0;
@@ -23,7 +35,6 @@ public class StrStr {
         }
     }
     public int strStr(String haystack, String needle) {
-        int m = haystack.length();
         int n = needle.length();
         if(n == 0) return 0;
         int[] next = new int[n]; // next数组

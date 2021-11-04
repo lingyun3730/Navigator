@@ -27,6 +27,7 @@ public class ReconstructItinerary {
         return res;
     }
 
+    //这是求一条通路的问题，因此当找到这个通路就结束，有返回值，返回值就是true/false。同样的题目还有解数独问题。
     private static boolean helper(List<String> res, Map<String, Map<String, Integer>> mp, int ticketNumber) {
         if(res.size() == ticketNumber + 1) { //路线长度等于ticket number + 1, 只寻找一条路径即可
             return true;

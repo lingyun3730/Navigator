@@ -7,19 +7,26 @@ import java.util.Arrays;
  */
 public class LISNumber {
     public int findNumberOfLIS(int[] nums) {
-        int[] dp = new int[nums.length]; // <=i 的最长递增子序列的长度
+        //这个题的难点在于需要使用两个数组
+        //dp[i]表示以i位置结尾的最长上升子序列的长度
+        //count[i]表示以i结尾的最长上升子序列的路径个数
+        //dp[i] = max (dp[j] + 1) if nums[i] > nums[j] and j < i
+        //count[i] = count[j] if(dp[i] < dp[j] + 1)
+        //count[i] += count[j] if(dp[i] == dp[j] + 1)
+        int number = 0;
+        int[] dp = new int[nums.length];
+        int[] count = new int[nums.length];
         Arrays.fill(dp, 1);
-        int[] count = new int[nums.length]; //以i结尾的最长递增子序列的个数
         Arrays.fill(count, 1);
         int maxLen = 0;
         for(int i = 0; i < nums.length; i++) {
             for(int j = 0; j < i; j++) {
                 if(nums[i] > nums[j]) {
-                    if(dp[j] + 1 > dp[i]) { //发现了一条更长的路径
-                        dp[i] = dp[j] + 1; //更新LIS长度
-                        count[i] = count[j]; //count相应地修改
-                    }else if(dp[j] + 1 == dp[i]) { //一条新的和之前最长长度相等的路径
-                        count[i] += count[j]; //加上路径条数
+                    if(dp[i] < dp[j] + 1) {
+                        dp[i] = dp[j] + 1;
+                        count[i] = count[j];
+                    }else if(dp[i] == dp[j] + 1) {
+                        count[i] += count[j];
                     }
                 }
             }
@@ -27,12 +34,11 @@ public class LISNumber {
                 maxLen = dp[i];
             }
         }
-        int res = 0;
         for(int i = 0; i < nums.length; i++) {
-            if(dp[i] == maxLen) {
-                res += count[i];
+            if(maxLen == dp[i]) {
+                number += count[i];
             }
         }
-        return res;
+        return number;
     }
 }

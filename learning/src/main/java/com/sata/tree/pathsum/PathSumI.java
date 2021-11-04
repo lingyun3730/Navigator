@@ -1,4 +1,6 @@
-package com.sata.tree;
+package com.sata.tree.pathsum;
+
+import com.sata.tree.TreeNode;
 
 /**
  * LC 112 https://leetcode.com/problems/path-sum/， 递归有返回值

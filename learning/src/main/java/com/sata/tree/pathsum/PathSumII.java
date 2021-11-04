@@ -1,4 +1,6 @@
-package com.sata.tree;
+package com.sata.tree.pathsum;
+
+import com.sata.tree.TreeNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,7 @@ public class PathSumII {
         helper(root, res, targetSum - root.val, tmp);
         return res;
     }
+    //全树扫描，不需要处理递归结果，所以不需要返回值
     private void helper(TreeNode root, List<List<Integer>> res, int targetSum, List<Integer> tmp) {
         if(root.left == null && root.right == null && targetSum == 0) {
             res.add(new ArrayList<>(tmp));
