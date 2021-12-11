@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LRUCache {
-    //需要用双向链表 + hashmap
+    //biLinkedList+ hashmap
     class BiLinkedNode { //bilinked list
         int key;
         int value;
@@ -14,7 +14,7 @@ public class LRUCache {
 
     private int capacity;
     /**
-     * we need two dummy nodes head and tail to confine something.
+     * we need two dummy nodes: head and tail to confine the data.
      */
     private BiLinkedNode head = new BiLinkedNode(); //dummy node
     private BiLinkedNode tail = new BiLinkedNode(); //dummy node

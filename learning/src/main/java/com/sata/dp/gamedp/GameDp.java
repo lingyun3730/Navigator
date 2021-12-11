@@ -1,4 +1,4 @@
-package com.sata.dp;
+package com.sata.dp.gamedp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,8 +84,7 @@ import java.util.Scanner;
 public class GameDp {
     public static void main(String[] args) {
         Scanner in = new Scanner (System.in);
-        String s = null;
-        s = in.nextLine();
+        String s = in.nextLine();
         String[] s2 = s.split(" ");
         List<Integer> data = new ArrayList<>();
         for(int i = 0 ; i < s2.length ; i ++){

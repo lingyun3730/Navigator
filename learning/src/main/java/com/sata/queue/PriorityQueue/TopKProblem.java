@@ -1,4 +1,4 @@
-package com.sata.PriorityQueue;
+package com.sata.queue.PriorityQueue;
 
 import java.util.*;
 
