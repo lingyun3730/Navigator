@@ -1,4 +1,4 @@
-package com.sata.twopointers;
+package com.sata.array.twopointers;
 
 /**
  * LC 925, 双指针的题目，比较经典

@@ -1,4 +1,4 @@
-package com.sata.array;
+package com.sata.array.binarySearch;
 
 import java.util.Arrays;
 

@@ -5,21 +5,21 @@ package com.sata.dp.houserobber;
  */
 public class RobII {
     public int rob(int[] nums) {
-        //成环了
+        //可以把环解开成[0, n-2], [1, n-1]
         int n = nums.length;
         if(n == 1) return nums[0];
-        if(n == 2) return nums[0] > nums[1] ? nums[0] : nums[1];
-        return Math.max(rob(nums, 0, n-2), rob(nums, 1, n-1)); //把环解开了
+        if(n == 2) return Math.max(nums[0], nums[1]);
+        int res1 = helper(nums, 0, n-2);
+        int res2 = helper(nums, 1, n-1);
+        return res1 > res2 ? res1 : res2;
     }
-    private int rob(int[] nums, int start, int end) {
-        int[] dp = new int[end - start + 1];
-        if(end == start) return nums[start];
-        if(end == start + 1) return nums[start] > nums[end] ? nums[start] : nums[end];
-        dp[0] = nums[start];
-        dp[1] = nums[start] > nums[start + 1] ? nums[start] : nums[start + 1];
-        for(int i = start + 2; i <= end; i++) {
-            dp[i-start] = Math.max(dp[i-start-1], dp[i-start-2] + nums[i]);
+
+    private int helper(int[] nums, int start, int end) {
+        int[] dp = new int[end - start + 2];
+        dp[1] = nums[start];
+        for(int i = start + 2; i <= end + 1; i++) {
+            dp[i - start] = Math.max(dp[i - start - 1], dp[i - start - 2] + nums[i - 1]);
         }
-        return dp[end - start];
+        return dp[end - start + 1];
     }
 }

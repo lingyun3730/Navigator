@@ -1,4 +1,4 @@
-package com.sata.array;
+package com.sata.array.twopointers;
 
 /**
  * LC 977s: 双指针， O(n)

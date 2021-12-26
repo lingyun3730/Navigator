@@ -14,23 +14,20 @@ public class StockIV {
     public int maxProfit(int k, int[] prices) {
         int n = prices.length;
         if(n == 0 || k == 0) return 0; //特殊数值单独处理
-        int[][] dp = new int[n][2*k];
-        for(int i = 0; i < k; i++) {
-            dp[0][i * 2] = -prices[0];
+        //0 表示啥也不干，奇数表示买入和保持买入，偶数表示卖出或者保持卖出
+        int[][] dp = new int[n][2 * k + 1];
+        //对第0天的k次买入进行初始化
+        for(int i = 1; i <= k; i++) {
+            dp[0][2 * i - 1] = -prices[0];
         }
         for(int i = 1; i < n; i++) {
-            for(int j = 0; j < k; j++) {
-                //买入处理，持有的最大钱
-                if(j == 0) {
-                    dp[i][j * 2] = Math.max(dp[i-1][j * 2],  - prices[i]); //第1次单独处理
-                } else {
-                    dp[i][j * 2] = Math.max(dp[i-1][j * 2], dp[i-1][j * 2 - 1] - prices[i]);
-                }
-                //卖出处理，卖出的最大钱
-                dp[i][j * 2 + 1] = Math.max(dp[i-1][j * 2 + 1], dp[i-1][j * 2] + prices[i]);
+            for(int j = 1; j < 2 * k; j += 2) {
+                //第k次买入和卖出
+                dp[i][j] = Math.max(dp[i-1][j], dp[i-1][j-1] - prices[i]);
+                dp[i][j + 1] = Math.max(dp[i-1][j + 1], dp[i-1][j] + prices[i]);
             }
         }
-        return dp[n-1][2*k-1];
+        return dp[n-1][2 * k];
     }
 
     /**
@@ -40,21 +37,18 @@ public class StockIV {
     public int maxProfitII(int k, int[] prices) {
         int n = prices.length;
         if(n == 0 || k == 0) return 0; //特殊数值单独处理
-        int[] dp = new int[2*k];
-        for(int i = 0; i < k; i++) {
-            dp[i * 2] = -prices[0];
+        int[] dp = new int[2 * k + 1]; //0 表示啥也不干，奇数表示买入和保持买入，偶数表示卖出或者保持卖出
+        //对第0天的k次买入进行初始化
+        for(int i = 1; i <= k; i++) {
+            dp[2 * i - 1] = -prices[0];
         }
-        for(int i = 1; i < n; i++) {
-            for(int j = 0; j < k; j++) {
-                if(j == 0) {
-                    dp[j * 2] = Math.max(dp[j * 2],  - prices[i]);
-                } else {
-                    dp[j * 2] = Math.max(dp[j * 2], dp[j * 2 - 1] - prices[i]);
-                }
-
-                dp[j * 2 + 1] = Math.max(dp[j * 2 + 1], dp[j * 2] + prices[i]);
+        for(int i = 1; i < n; i++) { //1 -> n
+            for(int j = 1; j < 2 * k; j += 2) {
+                //第k次买入和卖出
+                dp[j] = Math.max(dp[j], dp[j-1] - prices[i]);
+                dp[j + 1] = Math.max(dp[j + 1], dp[j] + prices[i]);
             }
         }
-        return dp[2*k-1];
+        return dp[2 * k];
     }
 }

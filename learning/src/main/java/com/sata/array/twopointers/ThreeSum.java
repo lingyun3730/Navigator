@@ -1,4 +1,4 @@
-package com.sata.twopointers;
+package com.sata.array.twopointers;
 
 import java.util.ArrayList;
 import java.util.Arrays;

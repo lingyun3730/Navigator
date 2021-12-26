@@ -1,5 +1,7 @@
 package com.sata.dp.gamedp;
 
+import java.util.Arrays;
+
 /**
  * LC 1563
  */
@@ -31,5 +33,44 @@ public class StoneGameV {
             }
         }
         return dp[0][n-1];
+    }
+
+    /**
+     * DFS + memo
+     * @param s
+     * @return
+     */
+    public int stoneGameV_(int[] s) {
+        //top - down solution
+        //先计算presum
+        int n = s.length;
+        int[] presum = new int[n + 1];
+        for(int i = 0; i < n; i++) {
+            presum[i + 1] = presum[i] + s[i];
+        }
+        int[][] memo = new int[n][n];
+        for(int i = 0; i < n; i++) {
+            Arrays.fill(memo[i], -1);
+        }
+        return dfs(s, 0, n - 1, memo, presum);
+    }
+
+    private int dfs(int[] s, int start, int end, int[][] memo, int[] presum) {
+        if(start > end) return 0;
+        if(memo[start][end] != -1) return memo[start][end];
+        int res = 0;
+        for(int i = start; i <= end; i++) {
+            int left = presum[i + 1] - presum[start]; //[start, i];
+            int right = presum[end + 1] - presum[i + 1]; //[i + 1, end];
+            if(left > right) {
+                res = Math.max(res, dfs(s, i + 1, end, memo, presum) + right);
+            } else if(left < right) {
+                res = Math.max(res, dfs(s, start, i, memo, presum) + left);
+            } else{
+                res = Math.max(res, Math.max(dfs(s, start, i,memo, presum) + left, dfs(s, i + 1, end, memo, presum) + right));
+            }
+        }
+        memo[start][end] = res;
+        return res;
     }
 }
