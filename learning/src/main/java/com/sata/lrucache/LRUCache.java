@@ -3,76 +3,72 @@ package com.sata.lrucache;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LRUCache {
-    //biLinkedList+ hashmap
-    class BiLinkedNode { //bilinked list
+/**
+ * LC 146
+ */
+class LRUCache {
+    //双向链表 + hashmap
+    class Node {
         int key;
-        int value;
-        BiLinkedNode next;
-        BiLinkedNode pre;
+        int val;
+        Node pre;
+        Node next;
     }
+    int cap;
+    Node head;
+    Node tail;
+    Map<Integer, Node> mp;
 
-    private int capacity;
-    /**
-     * we need two dummy nodes: head and tail to confine the data.
-     */
-    private BiLinkedNode head = new BiLinkedNode(); //dummy node
-    private BiLinkedNode tail = new BiLinkedNode(); //dummy node
-    private Map<Integer, BiLinkedNode> mp; //hash map
-
-    LRUCache(int capacity) {
-        this.capacity = capacity;
-        this.mp = new HashMap<>();
+    public LRUCache(int capacity) {
+        this.cap = capacity;
+        this.head = new Node();
+        this.tail = new Node();
         head.next = tail;
-        tail.next = head;
+        tail.pre = head;
+        mp = new HashMap<>();
     }
 
-    int get(int key) {
-        if (!mp.containsKey(key)) {
+    public int get(int key) {
+        if(! mp.containsKey(key)) {
             return -1;
-        } else {
-            BiLinkedNode node = mp.get(key);
-            removeNode(node); //remove from original position
-            addNode(node); // add to front position
-            return node.value;
         }
+        Node cur = mp.get(key);
+        removeNode(cur);
+        addNode(cur);
+        return cur.val;
     }
 
-    void put(int key, int value) {
-        if (!mp.containsKey(key)) {
-            if (mp.size() >= capacity) {
-                mp.remove(tail.pre.key); // remove from map
-                removeNode(tail.pre); // remove the last node from linked list
-            }
-            BiLinkedNode node = new BiLinkedNode();
-            node.key = key;
-            node.value = value;
-            addNode(node);
+    public void put(int key, int value) {
+        if(mp.containsKey(key)) {
+            //just update value
+            Node node = mp.get(key);
+            node.val = value;
             mp.put(key, node);
-        } else {
-            BiLinkedNode node = mp.get(key);
             removeNode(node);
-            node.value = value;
-            mp.put(key, node);
             addNode(node);
+        }else{
+            if(mp.size() >= cap){
+                mp.remove(tail.pre.key);
+                removeNode(tail.pre);
+            }
+            Node newNode = new Node();
+            newNode.key = key;
+            newNode.val = value;
+            addNode(newNode);
+            mp.put(key, newNode);
         }
-
     }
 
-    /**
-     * two operations: remove node and add node.
-     * @param node
-     */
-    void removeNode(BiLinkedNode node) { //remove any node
-        node.pre.next = node.next;
-        node.next.pre = node.pre;
+    private void removeNode(Node cur) {
+        cur.pre.next = cur.next;
+        cur.next.pre = cur.pre;
     }
 
-    void addNode(BiLinkedNode node) { // add to front
-        node.next = head.next;
-        head.next.pre = node;
-        head.next = node;
-        node.pre = head;
+    private void addNode(Node cur) {
+        cur.next = head.next;
+        head.next.pre = cur;
+        head.next = cur;
+        cur.pre = head;
     }
 
     public static void main(String[] args) {

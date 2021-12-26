@@ -24,6 +24,7 @@ BFS （模板）
 其他题目：
 LRU cache
 实现一个blocking queue
+skipList
 
 
 薄弱点或者可能会遗忘的点：
