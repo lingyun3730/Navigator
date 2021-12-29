@@ -1,7 +1,7 @@
 package com.sata.dp.Palindromic;
 
 /**
- * LC 5
+ * LC 5， 子串问题，需要定义dp[i][j]为boolean，表示i-j之间的子串是不是一个回文串
  */
 public class LongestPalindromicSubstring {
     //方法一：非动态规划

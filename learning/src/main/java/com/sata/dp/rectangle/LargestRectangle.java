@@ -21,12 +21,12 @@ public class LargestRectangle {
         rh[n-1] = n; //防止越界
         for(int i = 1; i < n; i++) {
             int tmp = i - 1; //初始化为i-1,往左边找
-            while(tmp >= 0 && heights[tmp] >= heights[i]) tmp = lh[tmp]; //向左找
+            while(tmp >= 0 && heights[tmp] >= heights[i]) tmp = lh[tmp]; //向左找， 注意不能 tmp--，否则会超时;
             lh[i] = tmp; //找到了！
         }
         for(int i = n-2; i >= 0; i--) {
             int tmp = i + 1;
-            while(tmp <= n-1 && heights[tmp] >= heights[i]) tmp = rh[tmp];
+            while(tmp <= n-1 && heights[tmp] >= heights[i]) tmp = rh[tmp]; //注意不能 tmp ++，否则会超时
             rh[i] = tmp;
         }
         //求面积

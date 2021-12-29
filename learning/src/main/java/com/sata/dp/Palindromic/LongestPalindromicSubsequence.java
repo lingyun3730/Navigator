@@ -1,11 +1,11 @@
 package com.sata.dp.Palindromic;
 
 /**
- * LC 516 两种遍历方式，从下向上和沿着对角线填充
+ * LC 516 两种遍历方式，从下向上和沿着对角线填充，子序列问题，定义dp[i][j]为i -> j之间的字符串中最长的回文子序列长度
  */
 public class LongestPalindromicSubsequence {
     public int longestPalindromeSubseqI(String s) {
-        //dp[i][j] 表示i - j之间回文串的最大长度。
+        //dp[i][j] 表示i - j之间回文序列的最大长度。
         //从下向上填充，保证下面的先被遍历到
         // dp[i][i] = 1
         //dp[0][n-1] is the result.

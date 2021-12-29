@@ -1,7 +1,7 @@
 package com.sata.dp.subarray;
 
 /**
- * LC 718
+ * LC 718， 子数组，子串，需要定义以i-1结尾
  */
 public class MaxRepeatedSubArray {
 
