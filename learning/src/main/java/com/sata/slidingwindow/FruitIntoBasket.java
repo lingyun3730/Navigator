@@ -8,23 +8,24 @@ import java.util.Map;
  */
 public class FruitIntoBasket {
     public static int totalFruit(int[] fruits) {
-        //sliding window: 只能拿到最多两种水果，其实是选出连续的子数组中包含哪两种水果树最多
         int n = fruits.length;
         int i = 0;
         int j = 0;
-        Map<Integer, Integer> mp = new HashMap<>(); //<type : number> map, 记录滑动窗口内的状态
-        int res = Integer.MIN_VALUE;
+        Map<Integer, Integer> mp = new HashMap<>(); //fruit type : number in sliding window
+        int res = 0;
+        //the key point of the constraint is that the sliding window has only less than 2 types of fruits
         for(; j < n; j++) {
+            //meet a new fruit type
             if(! mp.containsKey(fruits[j])) {
                 if(mp.keySet().size() < 2) {
                     mp.put(fruits[j], 1);
                 }else{
-                    //滑动窗口
-                    res = res < j-i? j-i : res; // do not contain j (i -> j-1)
+                    //adjust sliding window
+                    //current map has more than 2 types of fruits, to retire the front fruit in the sliding window
                     while(mp.keySet().size() >= 2) {
                         mp.put(fruits[i], mp.get(fruits[i]) - 1);
                         if(mp.get(fruits[i]) == 0) {
-                            mp.remove(fruits[i]); //移除一个key
+                            mp.remove(fruits[i]);
                         }
                         i++;
                     }
@@ -33,8 +34,9 @@ public class FruitIntoBasket {
             }else{
                 mp.put(fruits[j], mp.get(fruits[j]) + 1);
             }
+            res = j - i + 1 > res ? j - i + 1: res;
         }
-        return res < j-i ? j-i : res; //最后处理需要注意
+        return res;
     }
 
     public static void main(String[] args) {

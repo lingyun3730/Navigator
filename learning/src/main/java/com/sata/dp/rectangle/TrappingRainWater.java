@@ -8,9 +8,10 @@ public class TrappingRainWater {
         //双指针 - 动态规划都可以做这个题
         //双指针 time complexity O(n ^2) 空间复杂度 O(1)
         //动态规划以空间换时间，time complexity O(n) 空间复杂度 O(n)
+        //位置i所能承接的雨水的量 = min(i左边最大的柱子的高度, i右边最大的柱子的高度) - height[i]
         int n = height.length;
-        int[] lh = new int[n]; //存储i左边第一个比height[i]小的矩形高度
-        int[] rh = new int[n]; //存储i右边第一个比height[i]小的矩形高度
+        int[] lh = new int[n]; //存储i左边最大的柱子的高度
+        int[] rh = new int[n]; //存储i右边最大的柱子的高度
         lh[0] = height[0]; //初始化
         rh[n-1] = height[n-1];
         for(int i = 1; i < n; i++) {

@@ -5,6 +5,9 @@ import java.util.Deque;
 
 /**
  * LC 239 双端队列deque
+ * 1. 维护窗口宽度
+ * 2. 保持队列单调
+ * 3. 输出合适的结果数组
  */
 public class SlidingWindow {
 

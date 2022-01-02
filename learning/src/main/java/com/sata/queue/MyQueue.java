@@ -3,86 +3,64 @@ package com.sata.queue;
 /**
  * 实现一个队列 cyclic
  */
-public class MyQueue {
-    private int[] queue;
-    private int size;
-    private int count;
-    private int front; //front has value
-    private int rear; //rear no value
+class MyQueue {
 
-    MyQueue(int n) {
-        size = n;
-        queue = new int[size];
+    //数组实现环形队列
+    private int[] que;
+    private int rear;
+    private int front;
+    private int k;
+    int count = 0;
+    public MyQueue(int k) {
+        this.k = k;
+        que = new int[k];
+        rear = -1; //rear初始化
         front = 0;
-        rear = 0;
-        count = 0;
     }
 
-    /**
-     * to judge if the queue is empty
-     * @return
-     */
-    public boolean isEmpty() {
-        return front == rear;
-    }
-
-    /**
-     * to judge if the queue is full
-     * @return
-     */
-    public boolean isFull() {
-        return front == (rear + 1) % size;
-    }
-
-    /**
-     * insert x into the queue.
-     * @param x
-     */
-    public boolean offer(int x) {
-        if(! isFull()) {
-            queue[rear] = x;
-            rear = (rear + 1) % size;
-            count ++;
-            return true;
-        }else {
-            System.out.println("The queue is full");
+    public boolean enQueue(int value) {
+        if(isFull()) {
             return false;
         }
+        rear = (rear + 1) % k;
+        que[rear] = value;
+        count ++;
+        return true;
     }
 
-    /**
-     * return the first element
-     * @return
-     */
-    public int peek() throws Exception {
-        if(! isEmpty()) {
-            return queue[front];
-        }
-        throw new Exception("The queue is empty");
+    public boolean deQueue() {
+        if(isEmpty()) return false;
+        front = (front + 1) % k;
+        count --;
+        return true;
     }
 
-    /**
-     * return the first element and delete it.
-     * @return
-     */
-    public int poll() throws Exception {
-        if(! isEmpty()) {
-            int res = queue[front];
-            front = (front + 1) % size;
-            count --;
-            return res;
-        }
-        throw new Exception("The queue is empty");
+    public int Front() {
+        if(isEmpty()) return -1;
+        return que[front];
+    }
+
+    public int Rear() {
+        if(isEmpty()) return -1;
+        return que[rear];
+    }
+
+    public boolean isEmpty() {
+        return count == 0;
+    }
+
+    public boolean isFull() {
+        return count == k;
     }
 
     public static void main(String[] args) {
         MyQueue queue = new MyQueue(10);
-        queue.offer(1);
-        queue.offer(3);
+        queue.enQueue(1);
+        queue.enQueue(3);
         try {
-            System.out.println(queue.peek());
-            System.out.println(queue.poll());
-            System.out.println(queue.poll());
+            System.out.println(queue.deQueue());
+            System.out.println(queue.deQueue());
+            System.out.println(queue.deQueue());
         } catch (Exception e) {
             e.printStackTrace();
         }

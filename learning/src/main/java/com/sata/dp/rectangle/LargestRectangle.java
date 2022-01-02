@@ -38,24 +38,35 @@ public class LargestRectangle {
         return res;
     }
 
-    public int largestRectangleAreaII(int[] heights) {
-        //单调栈解法:需要给heights最后一位补个0
-        List<Integer> h = new ArrayList<>();
-        for(int height : heights) {
-            h.add(height);
+    /**
+     * 单调栈做法
+     * @param heights
+     * @return
+     */
+    public int largestRectangleArea(int[] heights) {
+        //左右两边需要添加一个0，这样做是为了让每个柱子都有可能被遍历到
+        int n = heights.length;
+        int[] cpy = new int[n + 2];
+        cpy[0] = 0;
+        cpy[n + 1] = 0;
+        for(int i = 0; i < n; i++) {
+            cpy[i + 1] = heights[i];
         }
-        h.add(0);
-        Stack<Integer> s = new Stack<>();
-        int n = h.size();
+        Stack<Integer> st = new Stack<>();
+        st.push(0);
         int res = 0;
-        int i = 0;
-        while(i < n) {
-            if(s.empty() || h.get(s.peek()) <= h.get(i)) {
-                s.push(i);
-                i++;
+        for(int i = 0; i < n + 2; i++) {
+            if(cpy[i] >= cpy[st.peek()]) {
+                st.push(i);
             }else{
-                int tmp = s.pop();
-                res = Math.max((s.empty()? i : (i-s.peek()-1)) * h.get(tmp), res);
+                while(!st.isEmpty() && cpy[st.peek()] > cpy[i]) {
+                    int mid = st.pop();
+                    int left = st.peek();
+                    int right = i;
+                    int area = (right - left - 1) * cpy[mid];
+                    res = Math.max(res, area);
+                }
+                st.push(i);
             }
         }
         return res;

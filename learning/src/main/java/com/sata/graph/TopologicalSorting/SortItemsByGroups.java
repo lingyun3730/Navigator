@@ -15,6 +15,9 @@ public class SortItemsByGroups {
                 group[i] = m++;
             }
         }
+
+        //item的编号是从0 -> n-1， group的编号是从0 -> m-1，因此临接表可以用list不需要map
+
         List<List<Integer>> groupGraph = new ArrayList<>(); //每个group的临接表
         for(int i = 0; i < m; i++) {
             groupGraph.add(new ArrayList<>());
