@@ -1,4 +1,4 @@
-package com.sata.blockingqueue;
+package com.sata.multithread.blockingqueue;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
@@ -11,29 +11,34 @@ import java.util.concurrent.locks.ReentrantLock;
 public class BoundedBlockingQueue {
 
     ReentrantLock lock = new ReentrantLock();
-    Condition notFull = lock.newCondition(); //非满condition
-    Condition notEmpty = lock.newCondition(); //非空condition
+    Condition notFull = lock.newCondition();
+    Condition notEmpty = lock.newCondition();
+    int capacity;
+    int[] que;
+    int rear;
+    int front;
+    int size;
 
-    int size = 0;//队列当前的大小
-    int[] que; //数组
-    int head = 0; //队列头
-    int tail = 0; //队列尾
-
-    public BoundedBlockingQueue(int capacity) { //初始化数组的capacity
+    public BoundedBlockingQueue(int capacity){
+        this.capacity = capacity;
         que = new int[capacity];
+        front = 0;
+        rear = -1;
+        size = 0;
     }
 
-    public void enqueue(int element) throws InterruptedException {
+    public void enqueue(int element) {
         lock.lock();
         try {
-            while(size == que.length) {
+            if(size == capacity) { //队列已满
                 notFull.await();
             }
-            que[tail++] = element;
-            tail %= que.length;
-            size++;
+            rear = (rear + 1) % capacity;
+            que[rear] = element;
+            size ++;
             notEmpty.signal();
-
+        } catch(InterruptedException e) {
+            e.printStackTrace();
         } finally {
             lock.unlock();
         }
@@ -41,15 +46,15 @@ public class BoundedBlockingQueue {
 
     public int dequeue() throws InterruptedException {
         lock.lock();
-        try{
-            while(size == 0) {
+        try {
+            if(size == 0) {
                 notEmpty.await();
             }
-            int element = que[head ++];
-            head %= que.length;
+            int res = que[front];
+            front = (front + 1) % capacity;
             size--;
             notFull.signal();
-            return element;
+            return res;
         } finally {
             lock.unlock();
         }
@@ -58,10 +63,9 @@ public class BoundedBlockingQueue {
     public int size() {
         lock.lock();
         try {
-            return this.size;
-        } finally {
+            return size;
+        }finally {
             lock.unlock();
         }
     }
-
 }

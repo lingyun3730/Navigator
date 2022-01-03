@@ -1,4 +1,4 @@
-package com.sata.blockingqueue;
+package com.sata.multithread.blockingqueue;
 
 
 import java.util.concurrent.locks.Condition;

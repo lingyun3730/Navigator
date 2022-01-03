@@ -1,4 +1,4 @@
-package com.sata.blockingqueue;
+package com.sata.multithread.blockingqueue;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
@@ -48,6 +48,7 @@ public class BlockingQueue<E> {
             notEmpty.signal(); //队列非空信号
 
         } catch (InterruptedException ex) {
+            notFull.signal();
             ex.printStackTrace();
         } finally {
             lock.unlock();
@@ -70,6 +71,7 @@ public class BlockingQueue<E> {
             notFull.signal(); //队列非满信号
 
         } catch (InterruptedException ex) {
+            notEmpty.signal();
             ex.printStackTrace();
         } finally {
             lock.unlock();
@@ -84,6 +86,11 @@ public class BlockingQueue<E> {
         } finally {
             lock.unlock();
         }
+    }
+
+    public void clear() {
+        head = 0;
+        tail = 0;
     }
 
     public static void main(String[] args){
