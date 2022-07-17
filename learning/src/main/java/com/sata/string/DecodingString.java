@@ -46,22 +46,21 @@ public class DecodingString {
                 sstr.push(t);
                 number = 0;
                 t="";
-            }else{
-                int k = snum.pop();
-                while(k > 0) {
-                    String tmp = sstr.pop();
-                    tmp = tmp + t;
-                    sstr.push(tmp);
-                    k--;
+            }else{ //]
+                int repeat = snum.pop();
+                String cur = sstr.pop();
+                while(repeat > 0) {
+                    cur += t;
+                    repeat --;
                 }
-                t = sstr.pop();
+                t = cur;
             }
         }
-        return sstr.isEmpty() ? t : sstr.peek();
+        return t;
     }
 
     public static void main(String[] args) {
-        String res = decodeString("3[a]2[bc]");
+        String res = decodeStringI("abc3[a]");
         System.out.println(res);
     }
 
