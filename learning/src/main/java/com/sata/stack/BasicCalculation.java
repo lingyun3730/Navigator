@@ -91,7 +91,7 @@ public class BasicCalculation {
             if(c >= '0' && c <= '9') {
                 num = num * 10  + c - '0';
             }
-            if(c == '(') {
+            if(c == '(') { //左括号找右括号，遇到右括号不做任何事情
                 int j = findClosing(s.substring(i)); //找到对应的右括号的位置
                 num = calculateI(s.substring(i + 1, i + j)); //去除括号，并且递归地计算出括号内的数值
                 i += j;
@@ -111,7 +111,7 @@ public class BasicCalculation {
                         st.push(st.pop() / num);
                         break;
                 }
-                num = 0;
+                num = 0; //当前操作数归零
                 sign = c; //更新当前的符号
             }
             i++; //指针后移
