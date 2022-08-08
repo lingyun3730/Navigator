@@ -16,8 +16,7 @@ public class InOrderTraverse {
                 s.push(cur);
                 cur = cur.left;
             }
-            cur = s.peek();
-            s.pop();
+            cur = s.pop();
             res.add(cur.val);
             cur = cur.right;
         }
