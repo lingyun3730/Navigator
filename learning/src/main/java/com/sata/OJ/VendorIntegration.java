@@ -21,32 +21,32 @@ public class VendorIntegration {
             velo[i] = Integer.parseInt(vendor[1]);
         }
 
-//        int[] dp = new int[maxEffort + 1]; //dp[i]表示i天最多能完成多少工作
-//        //dp[i] = max(dp[i], dp[i - itgrt[i]] + (i - itgrt[j]) * velo[j]) //前面表示不集成它，后面表示集成它
-//        for(int i = 0; i < maxEffort; i++) {//对 i 天, 遍历每个vendor, 然后选择集成它和不集成它
-//            for(int j = 0; j < n; j++) {
-//                if(i > inte[j]) dp[i] = Math.max(dp[i], dp[i - inte[j]] + (i - inte[j]) * velo[j]);
-//            }
-//            if(dp[i] >= workLoad) {
-//                System.out.println(i);
-//                break;
-//            }
-//        }
-
-        //dfs直接解决
-        //求的是能创造固定价值的最小背包容量，所以从小到大遍历背包容量，当刚好能达到固定价值的时候，就能求出最小的背包容量
-        for(int i = 0; i <= maxEffort; i++) {
-            //每一天作为背包容量，vendor消耗的天数作为物品，vendor创造的价值作为收益
-            int[][] memo = new int[maxEffort + 1][n];
-            for(int x = 0; x < memo.length; x ++) {
-                Arrays.fill(memo[x], -1);
+        int[] dp = new int[maxEffort + 1]; //dp[i]表示i天最多能完成多少工作
+        //dp[i] = max(dp[i], dp[i - itgrt[i]] + (i - itgrt[j]) * velo[j]) //前面表示不集成它，后面表示集成它
+        for(int i = 0; i < maxEffort; i++) {//对 i 天, 遍历每个vendor, 然后选择集成它和不集成它
+            for(int j = 0; j < n; j++) {
+                if(i > inte[j]) dp[i] = Math.max(dp[i], dp[i - inte[j]] + (i - inte[j]) * velo[j]);
             }
-            int res = dfs(0, i, 0, inte, velo, n, memo);
-            if(res >= workLoad) {
+            if(dp[i] >= workLoad) {
                 System.out.println(i);
                 break;
             }
         }
+
+        //dfs直接解决
+        //求的是能创造固定价值的最小背包容量，所以从小到大遍历背包容量，当刚好能达到固定价值的时候，就能求出最小的背包容量
+//        for(int i = 0; i <= maxEffort; i++) {
+//            //每一天作为背包容量，vendor消耗的天数作为物品，vendor创造的价值作为收益
+//            int[][] memo = new int[maxEffort + 1][n];
+//            for(int x = 0; x < memo.length; x ++) {
+//                Arrays.fill(memo[x], -1);
+//            }
+//            int res = dfs(0, i, 0, inte, velo, n, memo);
+//            if(res >= workLoad) {
+//                System.out.println(i);
+//                break;
+//            }
+//        }
 
     }
 

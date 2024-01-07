@@ -1,6 +1,6 @@
 package com.sata.sort;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class QuickSort {
     //快速排序，左右指针交换法
@@ -34,7 +34,14 @@ public class QuickSort {
 
     public static void main(String[] args) {
         int[] arr = {4,2,6,7,1,9,0};
+        int[] copy = Arrays.copyOf(arr, arr.length);
         quickSort(arr, 0, 6);
         Arrays.stream(arr).boxed().mapToInt(Integer::intValue).forEach(System.out::println);
+        List<Integer> copyList = new ArrayList<>();
+        for(int x : copy) {
+            copyList.add(x);
+        }
+        copyList.sort(Comparator.comparingInt(o -> o));
+        copyList.forEach(System.out::println);
     }
 }

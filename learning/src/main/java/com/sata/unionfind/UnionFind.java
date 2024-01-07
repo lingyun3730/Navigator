@@ -26,7 +26,7 @@ public class UnionFind {
     public int find(int i) {
         //不断找自己的父节点，直到节点本身就是根节点
         while(i != parents[i]) {
-            parents[i] = find(parents[i]);
+           i = parents[i];
         }
         return i;
     }
